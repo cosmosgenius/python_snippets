@@ -1,5 +1,6 @@
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import argparse
+
 
 class Dump(BaseHTTPRequestHandler):
     """Dump HTTP Requests"""
@@ -41,7 +42,7 @@ class Dump(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-    
+
     def pack_print(self):
         self.send200()
         print "***** HEADERS *****"
@@ -52,17 +53,20 @@ class Dump(BaseHTTPRequestHandler):
                 print "***** BODY *****"
                 print self.rfile.read(len).decode('utf-8')
 
+
 def create_cmdarg():
     parser = argparse.ArgumentParser(description='Request Dumper')
-    parser.add_argument('-a','--address',help='Address to listen to',default='')
-    parser.add_argument('-p','--port', type=int, help='Port to listen to',default=8080)
+    parser.add_argument('-a', '--address',
+                        help='Address to listen to', default='')
+    parser.add_argument('-p', '--port', type=int,
+                        help='Port to listen to', default=8080)
     args = parser.parse_args()
-    return (args.address,args.port)
+    return (args.address, args.port)
 
 if __name__ == '__main__':
-    ADDR,PORT = create_cmdarg()
+    ADDR, PORT = create_cmdarg()
     try:
-        httpd = HTTPServer((ADDR,PORT), Dump)
+        httpd = HTTPServer((ADDR, PORT), Dump)
         print('Server started on %s:%s' % (httpd.server_address))
         httpd.serve_forever()
     except KeyboardInterrupt:
