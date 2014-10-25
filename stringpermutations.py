@@ -1,5 +1,5 @@
 print("Enter the string you want to find permutation for")
-inputstr = input(">");
+inputstr = input(">")
 def findPermutation(str):
     return permute(list(str))
 
