@@ -1,10 +1,22 @@
 print("Enter the string you want to find permutation for")
 inputstr = input(">")
-def findPermutation(str):
-    return permute(list(str))
 
-def permute(list):
-    if len(list) == 1 :
+numtime = 0
+
+
+def findPermutation(str):
+    global numtime
+    numtime = 0
+    return permute(list(str), {})
+
+
+def permute(list, memo):
+    global numtime
+    numtime += 1
+    if(tostr(list) in memo):
+        return memo[tostr(list)]
+
+    if len(list) == 1:
         return list
 
     retlist = []
@@ -12,11 +24,12 @@ def permute(list):
     for x in list:
         listcopy = list[:]
         listcopy.remove(x)
-        for y in permute(listcopy):
+        for y in permute(listcopy, memo):
             retlist.append(x+y)
+    memo[tostr(list)] = retlist
     return retlist
 
-        
+
 def tostr(list):
     retstr = ''
     for x in list:
@@ -24,6 +37,7 @@ def tostr(list):
     return retstr
 
 
-#for x in findPermutation(inputstr):
-#    print(x)
+# for x in findPermutation(inputstr):
+#     print(x)
 print(len(findPermutation(inputstr)))
+print (numtime)
